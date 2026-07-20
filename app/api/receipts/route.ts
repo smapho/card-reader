@@ -31,7 +31,10 @@ const responseSchema = {
           quantity: { type: Type.NUMBER },
           unit_price: { type: Type.NUMBER, nullable: true },
           amount: { type: Type.NUMBER },
-          tax_rate: { type: Type.INTEGER, enum: [0, 8, 10] }
+          tax_rate: {
+            type: Type.INTEGER,
+            description: "適用税率。軽減税率は8、標準税率は10、不明は0"
+          }
         },
         required: ["name", "quantity", "unit_price", "amount", "tax_rate"]
       }
@@ -105,7 +108,14 @@ export async function POST(request: NextRequest) {
       }
     });
     if (!result.text) throw new Error("画像から情報を読み取れませんでした。");
-    const analysis = JSON.parse(result.text) as ReceiptAnalysis;
+    const parsed = JSON.parse(result.text) as ReceiptAnalysis;
+    const analysis: ReceiptAnalysis = {
+      ...parsed,
+      items: (parsed.items ?? []).map((item) => ({
+        ...item,
+        tax_rate: item.tax_rate === 8 ? 8 : item.tax_rate === 10 ? 10 : 0
+      }))
+    };
 
     const supabase = getSupabaseAdmin();
     const ext = (image.name.split(".").pop() || "jpg").replace(/[^a-zA-Z0-9]/g, "");
