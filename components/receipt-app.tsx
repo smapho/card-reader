@@ -47,10 +47,41 @@ export default function ReceiptApp() {
 
   useEffect(() => { void load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function chooseImage(next: File | undefined) {
+  async function optimizeImage(source: File): Promise<File> {
+    if (!source.type.startsWith("image/")) return source;
+    const sourceUrl = URL.createObjectURL(source);
+    try {
+      const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const element = new Image();
+        element.onload = () => resolve(element);
+        element.onerror = reject;
+        element.src = sourceUrl;
+      });
+      const maxSide = 1800;
+      const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(image.naturalWidth * scale);
+      canvas.height = Math.round(image.naturalHeight * scale);
+      const context = canvas.getContext("2d");
+      if (!context) return source;
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob(resolve, "image/jpeg", 0.84)
+      );
+      if (!blob || blob.size >= source.size) return source;
+      return new File([blob], "receipt.jpg", { type: "image/jpeg" });
+    } catch {
+      return source;
+    } finally {
+      URL.revokeObjectURL(sourceUrl);
+    }
+  }
+
+  async function chooseImage(next: File | undefined) {
     if (!next) return;
-    setFile(next);
-    setPreview(URL.createObjectURL(next));
+    const optimized = await optimizeImage(next);
+    setFile(optimized);
+    setPreview(URL.createObjectURL(optimized));
     setError("");
   }
 
@@ -142,7 +173,7 @@ export default function ReceiptApp() {
             type="file"
             accept="image/*"
             capture="environment"
-            onChange={(e) => chooseImage(e.target.files?.[0])}
+            onChange={(e) => void chooseImage(e.target.files?.[0])}
           />
         </section>
 
