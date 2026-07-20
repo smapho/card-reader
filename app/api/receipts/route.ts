@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     const bytes = Buffer.from(await image.arrayBuffer());
     const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY });
     const result = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: process.env.GEMINI_MODEL || "gemini-3.5-flash",
       contents: [{
         role: "user",
         parts: [
