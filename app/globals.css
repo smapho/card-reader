@@ -37,9 +37,9 @@ button { color: inherit; }
 .demo-note { background: #edf1e6; color: #47613d; }
 .error-note { background: #f8dfd9; color: #884635; }
 .hero { padding: 31px 22px 25px; }
-.month-switcher { display: inline-flex; align-items: center; gap: 9px; }
-.month-switcher button { width: 34px; height: 34px; border: 1px solid #dcd8cf; border-radius: 50%; background: #eeece6; color: var(--green); display: grid; place-items: center; }
-.month-switcher .eyebrow { min-width: 98px; text-align: center; }
+.month-switcher { width: 100%; display: flex; align-items: center; justify-content: center; gap: 14px; }
+.month-switcher button { width: 40px; height: 40px; flex: 0 0 auto; border: 1px solid #d4d0c7; border-radius: 50%; background: #eeece6; color: var(--green); display: grid; place-items: center; }
+.month-switcher .eyebrow { min-width: 130px; text-align: center; font-size: 18px; letter-spacing: .06em; }
 .eyebrow { color: var(--green); font-weight: 700; font-size: 14px; letter-spacing: .1em; }
 .hero h1 { margin: 5px 0 18px; font-size: 23px; }
 .total { font-size: clamp(38px, 10vw, 58px); font-weight: 600; letter-spacing: -.055em; margin: 0; }
@@ -54,9 +54,10 @@ button { color: inherit; }
 .list-section { padding: 24px 22px 40px; background: #f1efe9; border-radius: 28px 28px 0 0; min-height: 380px; }
 .summary-section { padding: 27px 22px 45px; background: #f1efe9; border-radius: 28px 28px 0 0; min-height: 430px; }
 .history-section { padding: 27px 22px 45px; background: #f1efe9; border-radius: 28px 28px 0 0; min-height: 430px; }
-.summary-heading { display: flex; justify-content: space-between; align-items: center; }
+.summary-heading { position: relative; display: flex; align-items: center; }
+.summary-heading > div { flex: 1; min-width: 0; }
 .summary-heading h2 { margin: 4px 0 0; font-size: 23px; }
-.summary-heading > span { background: #e1ded5; color: #5e665d; border-radius: 20px; padding: 7px 12px; font-size: 14px; font-weight: 600; }
+.summary-heading > span { position: absolute; right: 0; bottom: 0; background: #e1ded5; color: #5e665d; border-radius: 20px; padding: 7px 12px; font-size: 14px; font-weight: 600; }
 .summary-total { margin-top: 20px; padding: 20px; color: white; background: var(--green); border-radius: 18px; }
 .summary-total > span, .summary-total > b, .summary-total > small { display: block; }
 .summary-total > span { font-size: 15px; opacity: .82; }
