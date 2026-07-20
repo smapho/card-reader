@@ -2,10 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "レシートポケット",
-  description: "レシートを撮影して、かんたん経費管理",
+  title: "名刺マネージャー",
+  description: "名刺を撮影して保存・検索できるシンプルな名刺管理アプリ",
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, statusBarStyle: "default", title: "レシート" }
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "名刺マネージャー" }
 };
 
 export const viewport: Viewport = {

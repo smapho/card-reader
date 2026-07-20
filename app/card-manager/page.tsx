@@ -1,5 +1,5 @@
 import CardManager from "@/components/card-manager";
 
-export default function Home() {
+export default function CardManagerPage() {
   return <CardManager />;
 }
